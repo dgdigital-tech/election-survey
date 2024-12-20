@@ -3,7 +3,12 @@ import {Text, TouchableOpacity, StyleSheet, Alert, View} from 'react-native';
 import axios from 'axios';
 import InputBox from '../components/InputBox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  responsiveHeight as hp,
+  responsiveWidth as wp,
+} from 'react-native-responsive-dimensions';
 import {useFocusEffect} from '@react-navigation/native';
+import Svg, {Image as SvgImage} from 'react-native-svg';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -28,8 +33,16 @@ const LoginScreen = ({navigation}) => {
       if (token && userdata) {
         await AsyncStorage.setItem('Authtoken', token);
         await AsyncStorage.setItem('userId', userdata._id);
+        await AsyncStorage.setItem('userRole', userdata.role);
 
-        navigation.navigate('Home');
+        // Navigate to appropriate dashboard based on user role
+        if (userdata.role === 'SuperAdmin') {
+          navigation.navigate('SuperAdminDashboard');
+        } else if (userdata.role === 'WardAdmin') {
+          navigation.navigate('WardAdminDashboard');
+        } else if (userdata.role === 'BoothAdmin') {
+          navigation.navigate('BoothAdminDashboard');
+        }
       } else {
         Alert.alert('Login Failed', 'Invalid credentials.');
       }
@@ -45,7 +58,18 @@ const LoginScreen = ({navigation}) => {
     useCallback(() => {
       const checkToken = async () => {
         const token = await AsyncStorage.getItem('Authtoken');
-        if (token) navigation.replace('Home');
+        if (token) {
+          const role = await AsyncStorage.getItem('userRole');
+          if (role === 'SuperAdmin') {
+            navigation.replace('SuperAdminDashboard');
+          } else if (role === 'WardAdmin') {
+            navigation.replace('WardAdminDashboard');
+          } else if (role === 'BoothAdmin') {
+            navigation.replace('BoothAdminDashboard');
+          } else {
+            navigation.replace('Home');
+          }
+        }
       };
 
       checkToken();
@@ -54,41 +78,53 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> Admin Login</Text>
-      <Text style={styles.appName}>Welcome Again</Text>
-
-      <InputBox
-        label="Email"
-        placeholder="Enter your email"
-        value={email}
-        setValue={setEmail}
-      />
-      <InputBox
-        label="Password"
-        placeholder="Enter your password"
-        value={password}
-        setValue={setPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity onPress={() => Alert.alert('Forgot Password')}>
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.footerText}>
-        Don’t Have an Account?{' '}
-        <Text
-          style={styles.registerLink}
-          onPress={() => navigation.navigate('RegisterScreen')}>
-          Click here to Register
+      <Svg height="100%" width="100%" style={styles.svgBackground}>
+        <SvgImage
+          fill={'blue'}
+          href={require('../assets/Icons/TextureBackground.svg')}
+          width="100%"
+          height="100%"
+          // preserveAspectRatio="xMidYMid slice"
+        />
+      </Svg>
+      <View style={styles.content}>
+        <View style={styles.LogoWrapper}>
+          {/* <Image style={styles.Logo} source={require('../../assets/jouls.png')} /> */}
+        </View>
+        <View style={styles.appNameContainer}>
+          <Text style={styles.appName}>WELCOME!</Text>
+          <View style={styles.underline} />
+        </View>
+        <Text style={styles.title}>Login to your account</Text>
+        <InputBox
+          label="Email"
+          placeholder="Enter your email"
+          value={email}
+          setValue={setEmail}
+          iconname="email"
+        />
+        <InputBox
+          label="Password"
+          placeholder="Enter your password"
+          value={password}
+          setValue={setPassword}
+          secureTextEntry
+          iconname="lock"
+        />
+        <Text style={styles.footerText}>
+          Don’t Have an Account?{' '}
+          <Text
+            style={styles.registerLink}
+            onPress={() => navigation.navigate('RegisterScreen')}>
+            Click here to Register
+          </Text>
         </Text>
-      </Text>
-
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>
-          {isLoading ? 'Logging in...' : 'LOGIN'}
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>
+            {isLoading ? 'Logging in...' : 'LOGIN'}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -96,48 +132,81 @@ const LoginScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
     backgroundColor: '#fff',
+  },
+  svgBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: -1,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: wp(5),
     justifyContent: 'center',
   },
+  LogoWrapper: {
+    borderRadius: 14,
+    backgroundColor: '#223265',
+    width: wp(65),
+    height: hp(10),
+    elevation: 3,
+    alignSelf: 'center',
+    marginTop: hp(2),
+    marginBottom: hp(3),
+  },
   title: {
-    fontSize: 24,
+    fontSize: wp(4.5),
     color: '#000',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: -wp(5),
+  },
+  appNameContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: wp(5),
   },
   appName: {
-    fontSize: 40,
-    color: '#000',
-    textAlign: 'center',
-    marginBottom: 30,
-    fontFamily: 'Roboto-Black',
+    fontSize: wp(9.5),
+    color: '#223265',
+    fontFamily: 'Isidora Sans',
+  },
+  underline: {
+    bottom: hp(0.5),
+    width: wp(37),
+    height: hp(0.3),
+    backgroundColor: '#223265',
   },
   forgotPassword: {
     textAlign: 'right',
     color: '#04238E',
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: hp(1),
+    marginBottom: hp(2),
   },
   loginButton: {
-    backgroundColor: '#944dff',
-    paddingVertical: 10,
-    borderRadius: 8,
+    backgroundColor: '#223265',
+    width: wp(70),
+    alignSelf: 'center',
+    paddingVertical: hp(1.5),
+    borderRadius: 30,
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: hp(17),
   },
   loginButtonText: {
     color: '#fff',
-    fontSize: 22,
+    fontSize: wp(5.5),
     fontWeight: 'bold',
   },
   footerText: {
+    marginTop: 5,
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: wp(3.5),
     color: '#777',
   },
   registerLink: {
-    color: '#04238E',
+    color: '#27aae1',
   },
 });
 

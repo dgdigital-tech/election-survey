@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, Alert, View} from 'react-native';
 import axios from 'axios';
 import InputBox from '../components/InputBox';
+import {
+  responsiveHeight as hp,
+  responsiveWidth as wp,
+} from 'react-native-responsive-dimensions';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const RegisterScreen = ({navigation}) => {
@@ -66,7 +70,11 @@ const RegisterScreen = ({navigation}) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Admin Register</Text>
+      <View style={styles.appNameContainer}>
+        <Text style={styles.title}> Super Admin Register</Text>
+
+        <View style={styles.underline} />
+      </View>
       <InputBox
         label="Full Name"
         placeholder="Enter your full name"
@@ -130,19 +138,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: '#fff',
   },
+  appNameContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: wp(3),
+  },
   title: {
     fontSize: 24,
     color: '#000000',
     textAlign: 'center',
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 30,
+    marginBottom: 10,
+  },
+  underline: {
+    bottom: hp(1.4),
+    width: wp(50),
+    height: hp(0.3),
+    backgroundColor: '#223265',
   },
   registerButton: {
-    backgroundColor: '#944dff',
-    paddingVertical: 10,
-    borderRadius: 8,
+    backgroundColor: '#223265',
+    width: wp(70),
+    alignSelf: 'center',
+    paddingVertical: hp(1.5),
+    borderRadius: 30,
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: hp(5),
   },
   registerButtonText: {
     color: '#fff',
@@ -153,10 +174,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     color: '#777',
-    marginTop: 20,
+    marginTop: 10,
   },
   loginLink: {
-    color: '#04238E',
+    color: '#27aae1',
   },
 });
 

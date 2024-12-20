@@ -20,7 +20,7 @@ const InputBox = ({
       <View style={styles.lableContainer}>
         <Text style={styles.lable}>{label}</Text>
       </View>
-      <Icon name={iconname} size={20} color="#000" />
+
       <TextInput
         {...props}
         style={styles.input}
@@ -30,6 +30,8 @@ const InputBox = ({
         onChangeText={setValue}
         autoCapitalize="none"
       />
+      <View style={styles.partitionBorder}></View>
+      <Icon name={iconname} size={20} color="#223265" />
     </View>
   );
 };
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#555454',
+    borderColor: '#223265',
     marginTop: 40,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -57,14 +59,20 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   lable: {
-    color: '#000000',
+    color: '#223265',
     fontSize: 14,
   },
   input: {
     paddingLeft: 14,
     padding: 10,
-    color: 'black',
+    color: '#223265',
     flex: 1, // Allow text input to take full width
+  },
+  partitionBorder: {
+    borderLeftWidth: 2,
+    borderColor: '#f2f2f2',
+    height: '75%',
+    paddingRight: '2%',
   },
 });
 
