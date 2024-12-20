@@ -1,5 +1,12 @@
 import React, {useState, useCallback} from 'react';
-import {Text, TouchableOpacity, StyleSheet, Alert, View} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  View,
+  ScrollView,
+} from 'react-native';
 import axios from 'axios';
 import InputBox from '../components/InputBox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,7 +15,7 @@ import {
   responsiveWidth as wp,
 } from 'react-native-responsive-dimensions';
 import {useFocusEffect} from '@react-navigation/native';
-import Svg, {Image as SvgImage} from 'react-native-svg';
+import TextureBackground from '../assets/Icons/TextureBackground.svg';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -77,16 +84,12 @@ const LoginScreen = ({navigation}) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Svg height="100%" width="100%" style={styles.svgBackground}>
-        <SvgImage
-          fill={'blue'}
-          href={require('../assets/Icons/TextureBackground.svg')}
-          width="100%"
-          height="100%"
-          // preserveAspectRatio="xMidYMid slice"
-        />
-      </Svg>
+    <ScrollView style={styles.container}>
+      <TextureBackground
+        width="100%"
+        height="100%"
+        style={styles.svgBackground}
+      />
       <View style={styles.content}>
         <View style={styles.LogoWrapper}>
           {/* <Image style={styles.Logo} source={require('../../assets/jouls.png')} /> */}
@@ -125,13 +128,12 @@ const LoginScreen = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
   },
   svgBackground: {
@@ -145,7 +147,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: wp(5),
+    marginTop: hp(15),
     justifyContent: 'center',
+    // backgroundColor: 'red',
   },
   LogoWrapper: {
     borderRadius: 14,
@@ -161,7 +165,7 @@ const styles = StyleSheet.create({
     fontSize: wp(4.5),
     color: '#000',
     textAlign: 'center',
-    marginBottom: -wp(5),
+    marginBottom: wp(5),
   },
   appNameContainer: {
     justifyContent: 'center',
@@ -192,7 +196,8 @@ const styles = StyleSheet.create({
     paddingVertical: hp(1.5),
     borderRadius: 30,
     alignItems: 'center',
-    marginTop: hp(17),
+    marginTop: hp(5),
+    marginBottom: hp(5),
   },
   loginButtonText: {
     color: '#fff',

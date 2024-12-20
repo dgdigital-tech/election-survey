@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {CheckBox} from 'react-native-elements';
 import {
   responsiveHeight as hp,
   responsiveWidth as wp,
 } from 'react-native-responsive-dimensions';
+import colors from '../styles/colors'; // Import the colors
 
-const VoterDetailsCard = ({
+const VotingStatusCard = ({
   epicId,
   name,
   contactNo,
@@ -25,25 +26,14 @@ const VoterDetailsCard = ({
             <Text style={styles.value}>{epicId}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Caste:</Text>
-            <Text style={styles.value}>{caste}</Text>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.row}>
             <Text style={styles.label}>Name:</Text>
             <Text style={styles.value}>{name}</Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Age:</Text>
-            <Text style={styles.value}>{age}</Text>
-          </View>
         </View>
+
         <View style={styles.row}>
-          <View style={styles.row}>
-            <Text style={styles.label}>Contact No:</Text>
-            <Text style={styles.value}>{contactNo}</Text>
-          </View>
+          <Text style={styles.label}>Contact No:</Text>
+          <Text style={styles.value}>{contactNo}</Text>
         </View>
         <View style={styles.row}>
           <View style={styles.row}>
@@ -51,31 +41,30 @@ const VoterDetailsCard = ({
             <Text style={styles.value}>{houseNo}</Text>
           </View>
           <View style={styles.row}>
+            <Text style={styles.label}>Caste:</Text>
+            <Text style={styles.value}>{caste}</Text>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.row}>
+            <Text style={styles.label}>Age:</Text>
+            <Text style={styles.value}>{age}</Text>
+          </View>
+          <View style={styles.row}>
             <Text style={styles.label}>Party Inclination:</Text>
             <Text style={styles.value}>{partyInclination}</Text>
           </View>
         </View>
       </View>
-
       <View style={styles.partitionBorder}></View>
-
-      <View style={styles.votedContainer}>
-        <Text style={styles.Votedlabel}>Voted</Text>
-        <Text style={{fontSize: 12}}>Yes/No</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Icon
-            name="check"
-            type="font-awesome"
-            size={20}
-            color={!voted ? 'green' : 'transparent'}
-          />
-          <Icon
-            name="check"
-            type="font-awesome"
-            size={20}
-            color={voted ? 'green' : 'transparent'}
-          />
-        </View>
+      <View style={{alignItems: 'center'}}>
+        <Text style={styles.label}>Voted</Text>
+        <CheckBox
+          checked={voted}
+          disabled
+          checkedColor={colors.voted}
+          containerStyle={styles.checkboxContainer}
+        />
       </View>
     </View>
   );
@@ -83,53 +72,49 @@ const VoterDetailsCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
     padding: wp(4),
     borderRadius: 10,
     marginVertical: hp(1),
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    elevation: 8,
+    shadowColor: colors.shadow,
+    shadowOffset: {width: 0, height: 10},
+    shadowOpacity: 1,
+    shadowRadius: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 20,
+    marginBottom: hp(0.2),
     overflow: 'hidden',
+    gap: 30,
+  },
+  detailsContainer: {
+    flex: 1,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: hp(0.2),
-    gap: 5,
+    gap: 10,
   },
   partitionBorder: {
-    borderLeftWidth: 1,
-    borderColor: '#e0e0e0',
+    borderLeftWidth: 2,
+    borderColor: '#f2f2f2',
     height: '100%',
-    alignSelf: 'center',
-  },
-  votedContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   label: {
     fontSize: wp(2.8),
-    color: '#000',
-    fontWeight: 'bold',
-    marginBottom: hp(0.2),
-  },
-  Votedlabel: {
-    fontSize: wp(4),
-    color: '#000',
+    color: colors.textPrimary,
     fontWeight: 'bold',
   },
   value: {
     fontSize: wp(2.8),
-    color: '#7d7d7d',
+    color: colors.textSecondary,
+  },
+  checkboxContainer: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
   },
 });
 
-export default VoterDetailsCard;
+export default VotingStatusCard;
