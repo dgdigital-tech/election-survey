@@ -6,6 +6,7 @@ import {
   Alert,
   View,
   ScrollView,
+  Image,
 } from 'react-native';
 import axios from 'axios';
 import InputBox from '../components/InputBox';
@@ -84,15 +85,18 @@ const LoginScreen = ({navigation}) => {
   );
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <TextureBackground
-        width="100%"
-        height="100%"
+        width="190%"
+        height="125%"
         style={styles.svgBackground}
       />
       <View style={styles.content}>
-        <View style={styles.LogoWrapper}>
-          {/* <Image style={styles.Logo} source={require('../../assets/jouls.png')} /> */}
+        <View>
+          <Image
+            style={styles.logo}
+            source={require('../assets/Assets/Asset35.png')}
+          />
         </View>
         <View style={styles.appNameContainer}>
           <Text style={styles.appName}>WELCOME!</Text>
@@ -128,43 +132,37 @@ const LoginScreen = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#fff',
   },
   svgBackground: {
     position: 'absolute',
     top: 0,
-    left: 0,
+    left: -157,
     right: 0,
     bottom: 0,
-    zIndex: -1,
   },
   content: {
     flex: 1,
     paddingHorizontal: wp(5),
-    marginTop: hp(15),
     justifyContent: 'center',
-    // backgroundColor: 'red',
   },
-  LogoWrapper: {
-    borderRadius: 14,
-    backgroundColor: '#223265',
-    width: wp(65),
-    height: hp(10),
-    elevation: 3,
+  logo: {
+    width: wp(50),
+    resizeMode: 'contain',
     alignSelf: 'center',
-    marginTop: hp(2),
-    marginBottom: hp(3),
   },
   title: {
     fontSize: wp(4.5),
     color: '#000',
     textAlign: 'center',
+    fontFamily: 'Roboto-Regular',
     marginBottom: wp(5),
   },
   appNameContainer: {
@@ -175,7 +173,7 @@ const styles = StyleSheet.create({
   appName: {
     fontSize: wp(9.5),
     color: '#223265',
-    fontFamily: 'Isidora Sans',
+    fontFamily: 'Roboto-Italic',
   },
   underline: {
     bottom: hp(0.5),
@@ -201,16 +199,19 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     color: '#fff',
+    fontFamily: 'Roboto-Regular',
     fontSize: wp(5.5),
     fontWeight: 'bold',
   },
   footerText: {
     marginTop: 5,
     textAlign: 'center',
+    fontFamily: 'Roboto-Regular',
     fontSize: wp(3.5),
     color: '#777',
   },
   registerLink: {
+    fontFamily: 'Roboto-Regular',
     color: '#27aae1',
   },
 });

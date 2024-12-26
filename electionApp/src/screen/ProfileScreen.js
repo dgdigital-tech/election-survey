@@ -1,54 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
+import {View, Text, StyleSheet, Image} from 'react-native';
+import colors from '../styles/colors';
 
 const ProfileScreen = () => {
-  const [userDetails, setUserDetails] = useState(null);
-
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const userId = await AsyncStorage.getItem('userId');
-        const token = await AsyncStorage.getItem('Authtoken');
-        if (userId && token) {
-          const response = await fetch(
-            `http://192.168.218.108:5000/users/${userId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          );
-          const data = await response.json();
-          setUserDetails(data);
-        }
-      } catch (error) {
-        console.error('Error fetching user details:', error);
-      }
-    };
-
-    fetchUserDetails();
-  }, []);
-
-  if (!userDetails) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
-    );
-  }
+  // Sample user data
+  const user = {
+    name: 'John Doe',
+    email: 'johndoe@example.com',
+    phone: '+1 234 567 890',
+    profilePic:
+      'https://i1.sndcdn.com/avatars-b3Op6VqenRjmQE7I-BySypQ-t500x500.jpg',
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.profileText}>Profile Screen</Text>
-      <Text style={styles.label}>Name:</Text>
-      <Text style={styles.value}>{userDetails.name}</Text>
-      <Text style={styles.label}>Email:</Text>
-      <Text style={styles.value}>{userDetails.email}</Text>
-      <Text style={styles.label}>Phone:</Text>
-      <Text style={styles.value}>{userDetails.phone}</Text>
-      <Text style={styles.label}>Role:</Text>
-      <Text style={styles.value}>{userDetails.role}</Text>
+      <Image source={{uri: user.profilePic}} style={styles.profilePic} />
+      <Text style={styles.name}>{user.name}</Text>
+      <Text style={styles.email}>{user.email}</Text>
+      <Text style={styles.phone}>{user.phone}</Text>
     </View>
   );
 };
@@ -58,26 +27,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: colors.background,
     padding: 20,
   },
-  profileText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  profilePic: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
     marginBottom: 20,
   },
-  label: {
-    fontSize: 18,
+  name: {
+    fontSize: 24,
     fontWeight: 'bold',
-    marginTop: 10,
+    color: colors.primary,
+    marginBottom: 10,
   },
-  value: {
+  email: {
     fontSize: 18,
-    marginTop: 5,
+    color: colors.textSecondary,
+    marginBottom: 5,
   },
-  loadingText: {
+  phone: {
     fontSize: 18,
-    color: '#777',
+    color: colors.textSecondary,
   },
 });
 

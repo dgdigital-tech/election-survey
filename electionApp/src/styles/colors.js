@@ -1,12 +1,13 @@
 const colors = {
-  primary: '#223265',
-  secondary: '#e5e5e5',
-  accent: '#2e3192',
-  background: '#f8f8f8',
-  textPrimary: '#000000',
-  textSecondary: '#7d7d7d',
-  voted: 'green',
-  shadow: '#000',
+  primary: '#223265', // Dark Blue
+  secondary: '#e5e5e5', // Light Grey
+  accent: '#2e3192', // Bright Blue
+  background: '#f8f8f8', // Off White
+  textPrimary: '#000000', // Black
+  textSecondary: '#7d7d7d', // Grey
+  voted: 'green', // Green
+  shadow: '#000', // Black (for shadow)
+  white: '#fff', // White
 };
 
 export default colors;

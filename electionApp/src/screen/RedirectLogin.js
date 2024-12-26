@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  AccessibilityInfo,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   responsiveHeight as hp,
@@ -14,6 +21,7 @@ const RedirectLogin = () => {
       <Image
         style={styles.logo}
         source={require('../assets/Assets/Asset-1.png')}
+        accessibilityLabel="App Logo"
       />
       <View style={styles.bottomCircle}>
         <Text style={styles.subText}>Join the Platform</Text>
@@ -26,22 +34,25 @@ const RedirectLogin = () => {
       <View style={styles.WardboothbuttonContainer}>
         <TouchableOpacity
           style={styles.Wardboothbutton}
-          onPress={() => navigation.navigate('WardAdminDashboard')}>
+          onPress={() => navigation.navigate('WardAdminDashboard')}
+          accessibilityLabel="Go to Ward Admin Dashboard">
           <Text style={styles.buttonText}>Ward Admin</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.Wardboothbutton}
-          onPress={() => navigation.navigate('BoothAdminDashboard')}>
+          onPress={() => navigation.navigate('BoothAdminDashboard')}
+          accessibilityLabel="Go to Booth Admin Dashboard">
           <Text style={styles.buttonText}>Booth Admin</Text>
         </TouchableOpacity>
       </View>
+
       <View style={styles.buttonLoginContainer}>
         <TouchableOpacity
           style={styles.buttonLogin}
-          onPress={() => navigation.navigate('LoginScreen')}>
+          onPress={() => navigation.navigate('LoginScreen')}
+          accessibilityLabel="Login to the platform">
           <Text style={styles.buttonLoginText}>Log in</Text>
         </TouchableOpacity>
-        <View style={styles.underline} />
       </View>
     </View>
   );
@@ -56,10 +67,11 @@ const styles = StyleSheet.create({
   logo: {
     width: wp(100),
     height: hp(50),
+    resizeMode: 'contain', // Ensures the logo doesn't stretch
   },
   bottomCircle: {
     backgroundColor: '#fff',
-    marginTop: -hp(8),
+    marginTop: -hp(10),
     height: hp(35),
     width: wp(105),
     borderBottomLeftRadius: wp(105) / 2,
@@ -97,6 +109,7 @@ const styles = StyleSheet.create({
     paddingVertical: hp(1.5),
     borderRadius: 30,
     alignItems: 'center',
+    elevation: 5, // Add shadow effect to buttons
   },
   buttonLoginContainer: {
     justifyContent: 'center',

@@ -12,7 +12,8 @@ const SplashScreen = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.replace('RedirectLogin');
-    }, 3000);
+    }, 3000); // You can adjust the time as per need
+
     return () => clearTimeout(timer);
   }, [navigation]);
 
@@ -22,7 +23,7 @@ const SplashScreen = () => {
         style={styles.logo}
         source={require('../assets/Assets/Asset35.png')}
       />
-      {/* <Text style={styles.text}>Voter Votes, VotD Verifies</Text> */}
+      <Text style={styles.text}>Voter Votes, VotD Verifies</Text>
     </View>
   );
 };
@@ -36,7 +37,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: wp(50),
-    height: hp(30),
     resizeMode: 'contain',
   },
   text: {
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     fontSize: wp(4.5),
     marginTop: hp(2),
     textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
 

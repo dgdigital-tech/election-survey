@@ -60,11 +60,13 @@ const styles = StyleSheet.create({
   },
   lable: {
     color: '#223265',
+    fontFamily: 'Roboto-Regular',
     fontSize: 14,
   },
   input: {
     paddingLeft: 14,
     padding: 10,
+    fontFamily: 'Roboto-Regular',
     color: '#223265',
     flex: 1, // Allow text input to take full width
   },

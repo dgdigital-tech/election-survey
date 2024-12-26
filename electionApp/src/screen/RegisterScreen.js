@@ -6,6 +6,7 @@ import {
   responsiveHeight as hp,
   responsiveWidth as wp,
 } from 'react-native-responsive-dimensions';
+import TextureBackground from '../assets/Icons/TextureBackground.svg';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const RegisterScreen = ({navigation}) => {
@@ -17,7 +18,6 @@ const RegisterScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async () => {
-    console.log(name, email, password, phone);
     // Validate inputs
     if (!name || !email || !password || !confirmPassword || !phone) {
       Alert.alert('Error', 'Please fill in all fields.');
@@ -41,8 +41,6 @@ const RegisterScreen = ({navigation}) => {
           phone,
         },
       );
-
-      console.log(response);
 
       if (response.data.success) {
         Alert.alert('Success', 'You have successfully registered!');
@@ -69,85 +67,109 @@ const RegisterScreen = ({navigation}) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.appNameContainer}>
-        <Text style={styles.title}> Super Admin Register</Text>
-
-        <View style={styles.underline} />
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.svgWrapper}>
+        <TextureBackground
+          width="190%"
+          height="125%"
+          style={styles.svgBackground}
+        />
       </View>
-      <InputBox
-        label="Full Name"
-        placeholder="Enter your full name"
-        value={name}
-        setValue={setName}
-        iconname="person"
-      />
-      <InputBox
-        label="Email"
-        placeholder="Enter your email"
-        value={email}
-        setValue={setEmail}
-        iconname="email"
-        keyboardType="email-address"
-      />
-      <InputBox
-        label="Phone Number"
-        placeholder="Enter your phone number"
-        value={phone}
-        setValue={setPhone}
-        iconname="phone"
-        keyboardType="phone-pad"
-      />
-      <InputBox
-        label="Password"
-        placeholder="Enter your password"
-        value={password}
-        setValue={setPassword}
-        iconname="lock"
-        secureTextEntry={true}
-      />
-      <InputBox
-        label="Confirm Password"
-        placeholder="Confirm your password"
-        value={confirmPassword}
-        setValue={setConfirmPassword}
-        iconname="lock"
-        secureTextEntry={true}
-      />
-      <TouchableOpacity
-        style={styles.registerButton}
-        onPress={handleRegister}
-        disabled={isLoading}>
-        <Text style={styles.registerButtonText}>
-          {isLoading ? 'Registering...' : 'REGISTER'}
+
+      <View style={styles.content}>
+        <Text style={styles.title}>Super Admin Register</Text>
+        <View style={styles.underline} />
+
+        <InputBox
+          label="Full Name"
+          placeholder="Enter your full name"
+          value={name}
+          setValue={setName}
+          iconname="person"
+        />
+        <InputBox
+          label="Email"
+          placeholder="Enter your email"
+          value={email}
+          setValue={setEmail}
+          iconname="email"
+          keyboardType="email-address"
+        />
+        <InputBox
+          label="Phone Number"
+          placeholder="Enter your phone number"
+          value={phone}
+          setValue={setPhone}
+          iconname="phone"
+          keyboardType="phone-pad"
+        />
+        <InputBox
+          label="Password"
+          placeholder="Enter your password"
+          value={password}
+          setValue={setPassword}
+          iconname="lock"
+          secureTextEntry={true}
+        />
+        <InputBox
+          label="Confirm Password"
+          placeholder="Confirm your password"
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          iconname="lock"
+          secureTextEntry={true}
+        />
+        <TouchableOpacity
+          style={styles.registerButton}
+          onPress={handleRegister}
+          disabled={isLoading}>
+          <Text style={styles.registerButtonText}>
+            {isLoading ? 'Registering...' : 'REGISTER'}
+          </Text>
+        </TouchableOpacity>
+        <Text style={styles.footerText}>
+          Already have an account?{' '}
+          <Text style={styles.loginLink} onPress={handleLoginNavigation}>
+            Click here to Login
+          </Text>
         </Text>
-      </TouchableOpacity>
-      <Text style={styles.footerText}>
-        Already have an account?{' '}
-        <Text style={styles.loginLink} onPress={handleLoginNavigation}>
-          Click here to Login
-        </Text>
-      </Text>
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: 20,
+    flexGrow: 1,
+    paddingHorizontal: wp(5),
     backgroundColor: '#fff',
   },
-  appNameContainer: {
+  svgWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: -1, // Keeps the background behind content
+  },
+  svgBackground: {
+    position: 'absolute',
+    top: 0,
+    left: -157,
+    right: 0,
+    bottom: 0,
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: wp(3),
+    paddingBottom: hp(2),
   },
   title: {
     fontSize: 24,
+    fontFamily: 'Roboto-Regular',
     color: '#000000',
     textAlign: 'center',
-    marginTop: 30,
     marginBottom: 10,
   },
   underline: {
@@ -159,7 +181,6 @@ const styles = StyleSheet.create({
   registerButton: {
     backgroundColor: '#223265',
     width: wp(70),
-    alignSelf: 'center',
     paddingVertical: hp(1.5),
     borderRadius: 30,
     alignItems: 'center',
@@ -167,16 +188,19 @@ const styles = StyleSheet.create({
   },
   registerButtonText: {
     color: '#fff',
+    fontFamily: 'Roboto-Regular',
     fontSize: 22,
     fontWeight: 'bold',
   },
   footerText: {
     textAlign: 'center',
+    fontFamily: 'Roboto-Regular',
     fontSize: 14,
     color: '#777',
     marginTop: 10,
   },
   loginLink: {
+    fontFamily: 'Roboto-Regular',
     color: '#27aae1',
   },
 });

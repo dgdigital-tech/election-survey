@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
+
 import {
   responsiveHeight as hp,
   responsiveWidth as wp,
 } from 'react-native-responsive-dimensions';
 import colors from '../styles/colors';
 
-const VoterDetailsCard = ({
+const VoterDetailsEditCard = ({
   epicId,
   name,
   contactNo,
@@ -15,13 +15,8 @@ const VoterDetailsCard = ({
   caste,
   age,
   partyInclination,
-  voted,
+  onEditPress,
 }) => {
-  const [hasVoted, setHasVoted] = useState(voted); // Renamed for clarity
-  const handleEditVotingStatus = () => {
-    setHasVoted(!hasVoted); // Toggle vote status
-  };
-
   return (
     <View style={styles.card}>
       <View style={styles.detailsContainer}>
@@ -30,10 +25,6 @@ const VoterDetailsCard = ({
             <Text style={styles.label}>Epic ID:</Text>
             <Text style={styles.value}>{epicId}</Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Caste:</Text>
-            <Text style={styles.value}>{caste}</Text>
-          </View>
         </View>
         <View style={styles.Itemsrow}>
           <View style={styles.row}>
@@ -41,8 +32,12 @@ const VoterDetailsCard = ({
             <Text style={styles.value}>{name}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Age:</Text>
-            <Text style={styles.value}>{age}</Text>
+            <Text style={styles.label}>House No:</Text>
+            <Text style={styles.value}>{houseNo}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>Caste:</Text>
+            <Text style={styles.value}>{caste}</Text>
           </View>
         </View>
         <View style={styles.rowContact}>
@@ -51,36 +46,17 @@ const VoterDetailsCard = ({
         </View>
         <View style={styles.Itemsrow}>
           <View style={styles.row}>
-            <Text style={styles.label}>House No:</Text>
-            <Text style={styles.value}>{houseNo}</Text>
+            <Text style={styles.label}>Age:</Text>
+            <Text style={styles.value}>{age}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Party Inclination:</Text>
             <Text style={styles.value}>{partyInclination}</Text>
           </View>
-        </View>
-      </View>
-
-      <View style={styles.partitionBorder}></View>
-
-      <View style={styles.voteContainer}>
-        <Text style={styles.voteLabel}>Voted</Text>
-        <Text style={styles.voteStatus}>{!hasVoted ? 'Yes' : 'No'}</Text>
-        {/* Added vote status text */}
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity onPress={handleEditVotingStatus}>
-            <Icon
-              name="check"
-              size={20}
-              color={!hasVoted ? 'green' : '#414042'} // Dynamic color for check icon
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleEditVotingStatus}>
-            <Icon
-              name="cross"
-              size={20}
-              color={hasVoted ? 'red' : '#414042'} // Dynamic color for cross icon
-            />
+          <TouchableOpacity onPress={onEditPress}>
+            <View style={styles.editContainer}>
+              <Text style={styles.editButtoText}>Edit Dtat</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -89,6 +65,10 @@ const VoterDetailsCard = ({
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
   card: {
     backgroundColor: '#fff',
     padding: wp(4),
@@ -131,7 +111,7 @@ const styles = StyleSheet.create({
   partitionBorder: {
     borderLeftWidth: 2,
     borderColor: '#f2f2f2',
-    height: '90%',
+    height: '80%',
     marginHorizontal: wp(4),
   },
   label: {
@@ -145,23 +125,21 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     color: '#7d7d7d',
   },
-  voteContainer: {
+  editContainer: {
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: '#e5e5e5',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: hp(1),
   },
-  voteLabel: {
-    fontSize: wp(4),
-    color: '#000',
-    fontFamily: 'Roboto-Regular',
-    fontWeight: 'bold',
-  },
-  voteStatus: {
+  editButtoText: {
     fontSize: wp(3),
-    color: '#7d7d7d',
+    fontWeight: 'bold',
     fontFamily: 'Roboto-Regular',
-    marginBottom: hp(0.5),
+    color: colors.primary,
   },
 });
 
-export default VoterDetailsCard;
+export default VoterDetailsEditCard;

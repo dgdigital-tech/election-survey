@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import InputBox from '../../components/InputBox'; // Ensure this path is correct
 import RadioGroup from 'react-native-radio-buttons-group';
+import colors from '../../styles/colors';
 
 const SuperAdminScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -28,7 +29,7 @@ const SuperAdminScreen = ({navigation}) => {
       label: 'Ward Admin',
       value: 'WardAdmin',
       selected: role === 'WardAdmin',
-      color: role === 'WardAdmin' ? '#944dff' : '#5391B4',
+      color: role === 'WardAdmin' ? colors.voted : 'gray',
     },
     {
       id: '2',
@@ -38,7 +39,7 @@ const SuperAdminScreen = ({navigation}) => {
       label: 'Booth Admin',
       value: 'BoothAdmin',
       selected: role === 'BoothAdmin',
-      color: role === 'BoothAdmin' ? '#944dff' : '#5391B4',
+      color: role === 'BoothAdmin' ? colors.voted : 'gray',
     },
   ];
 
@@ -101,7 +102,7 @@ const SuperAdminScreen = ({navigation}) => {
     const updatedRoles = roleOptions.map(role => ({
       ...role,
       selected: role.id === selectedRoleId, // Update selection based on
-      color: role.id === selectedRoleId ? '#944dff' : '#5391B4', // Change color
+      color: role.id === selectedRoleId ? colors.voted : 'gray', // Change color
     }));
 
     const selectedRole = updatedRoles.find(role => role.selected);
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   createButton: {
-    backgroundColor: '#944dff',
+    backgroundColor: colors.primary,
     paddingVertical: 10,
     borderRadius: 8,
     alignItems: 'center',
