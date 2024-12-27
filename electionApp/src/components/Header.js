@@ -99,7 +99,7 @@ const Header = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: hp(6.5),
+    height: hp(8),
     backgroundColor: colors.primary, // Keep the background color as #223265
     flexDirection: 'row',
     alignItems: 'center',

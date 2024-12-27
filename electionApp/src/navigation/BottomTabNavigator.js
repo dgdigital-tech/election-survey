@@ -81,17 +81,18 @@ const BottomTabNavigator = () => (
       }}
     />
   </Tab.Navigator>
-  
 );
 
 const styles = StyleSheet.create({
   tabBar: {
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
     backgroundColor: colors.primary,
     borderTopWidth: 0,
     height: 60,
-    borderRadius: 15,
-    padding: 10,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+    // borderRadius: 15,
+    // padding: 10,
   },
   tabBarLabel: {
     fontSize: 12,

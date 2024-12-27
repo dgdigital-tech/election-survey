@@ -20,7 +20,8 @@ const ElectionResultCard = ({partyLogo, partyName, votes}) => {
 const styles = StyleSheet.create({
   card: {
     width: wp(28),
-    padding: wp(4),
+    paddingVertical: wp(2.5),
+    paddingTop: wp(2),
     borderRadius: 10,
     backgroundColor: colors.background,
     elevation: 5,

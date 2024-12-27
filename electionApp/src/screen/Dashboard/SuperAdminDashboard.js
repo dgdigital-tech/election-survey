@@ -61,6 +61,7 @@ const SuperAdminDashboard = ({navigation}) => {
   return (
     <ScrollView
       style={styles.container}
+      overScrollMode="never"
       showsVerticalScrollIndicator={false}
       scrollEventThrottle={16} // Enables smooth scrolling
     >
@@ -114,7 +115,9 @@ const SuperAdminDashboard = ({navigation}) => {
         <View style={styles.wardContainer}>
           <ScrollView
             contentContainerStyle={styles.wardContentContainer}
-            showsVerticalScrollIndicator={true}>
+            showsVerticalScrollIndicator={false}
+            scrollEventThrottle={16}
+            nestedScrollEnabled={true}>
             {Array.from({length: 57}).map((_, index) => (
               <WardInfo
                 key={index}
@@ -193,7 +196,7 @@ const styles = StyleSheet.create({
     fontSize: wp(4),
     fontWeight: '600',
     fontFamily: 'Roboto-Regular',
-    color: colors.primarytext,
+    color: '#000000',
   },
   statsContainer: {
     paddingBottom: wp(4),
@@ -214,7 +217,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 10,
     height: hp(35),
-    overflow: 'hidden',
+    // overflow: 'hidden',
+    overflow: 'scroll',
   },
   wardContentContainer: {
     flexDirection: 'row',

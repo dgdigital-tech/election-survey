@@ -22,6 +22,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
+        {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         <Stack.Screen name="BottomTabs" component={BottomTabNavigator} />
         <Stack.Screen
           name="SuperAdminDashboard"
@@ -37,7 +38,7 @@ const AppNavigator = () => {
           component={WardAdminDashboard}
         />
         <Stack.Screen name="BoothDetails" component={BoothDetails} />
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+
         <Stack.Screen name="RedirectLogin" component={RedirectLogin} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />

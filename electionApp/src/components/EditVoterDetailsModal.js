@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: hp(4.5),
-    width: '65%',
+    width: '60%',
     borderColor: colors.textSecondary,
     borderWidth: 1,
     paddingLeft: wp(5),

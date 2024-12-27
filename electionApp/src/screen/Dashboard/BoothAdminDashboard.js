@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     fontSize: wp(4),
     fontWeight: '600',
     fontFamily: 'Roboto-Regular',
-    color: colors.text,
+    color: '#000',
   },
   activeButtonText: {
     color: '#fff',
