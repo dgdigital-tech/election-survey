@@ -1,78 +1,121 @@
 import React, {useState} from 'react';
-import {View, Button, Text, Alert} from 'react-native';
-import * as XLSX from 'xlsx';
+import {View, Button, Text, Alert, FlatList, StyleSheet} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
+import RNFS from 'react-native-fs';
+import * as XLSX from 'xlsx';
+import base64js from 'base64-js';
 
-// React Native component to handle file upload and data parsing
 const UploadVoterdetails = () => {
   const [data, setData] = useState([]);
 
-  // Function to read and parse the Excel file
-  const readExcelFile = async () => {
+  // Function to handle file upload and read the Excel file
+  const handleFileUpload = async () => {
     try {
-      // Allow the user to select the Excel file
       const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.plainText],
+        type: [DocumentPicker.types.xlsx, DocumentPicker.types.xls],
       });
 
-      // Fetch the selected file and read it as an ArrayBuffer
-      const file = res.uri;
-      const response = await fetch(file);
-      const buffer = await response.arrayBuffer();
+      const fileUri = res[0].uri;
+      const path = fileUri;
 
-      // Parse the Excel buffer into a workbook
-      const workbook = XLSX.read(buffer, {type: 'buffer'});
+      // Read the file as base64 string
+      const base64String = await RNFS.readFile(path, 'base64');
+      const byteArray = base64js.toByteArray(base64String);
+      const workbook = XLSX.read(byteArray, {type: 'array'});
 
-      // Get the first sheet from the Excel file (assuming the data is in the first sheet)
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
-
-      // Convert the sheet data to JSON format
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-      // Display parsed data in the console for debugging
-      console.log('Parsed Data:', jsonData);
 
       // Set the parsed data into the state
       setData(jsonData);
 
-      // Send the parsed data to the backend for saving into MongoDB
-      uploadDataToBackend(jsonData);
+      // Send data to the backend
+      sendDataToDatabase(jsonData);
     } catch (err) {
       console.error('Error reading Excel file:', err);
-      Alert.alert('Error', 'Failed to read the Excel file');
+      Alert.alert('Error', `Failed to read the Excel file: ${err.message}`);
     }
   };
 
-  // Function to send parsed data to the backend server
-  const uploadDataToBackend = async jsonData => {
+  // Function to send data to the backend
+  const sendDataToDatabase = async data => {
     try {
-      const response = await fetch('http://localhost:3000/upload-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://192.168.0.102:5000/voter/uploadData',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data), // Send the data to the backend
         },
-        body: JSON.stringify(jsonData), // Send data as JSON
-      });
+      );
 
       const result = await response.json();
       if (response.ok) {
         Alert.alert('Success', 'Data uploaded successfully!');
       } else {
-        Alert.alert('Error', result.message || 'Failed to upload data');
+        Alert.alert('Error', result.message);
       }
-    } catch (err) {
-      console.error('Error uploading data:', err);
-      Alert.alert('Error', 'Failed to upload data');
+    } catch (error) {
+      console.error('Error sending data:', error);
+      // Alert.alert('Error', 'Failed to send data to the database');
     }
   };
 
+  // Render each row of the data
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.row}>
+        {Object.keys(item).map((key, index) => (
+          <Text key={index} style={styles.cell}>
+            {key}: {item[key]}
+          </Text>
+        ))}
+      </View>
+    );
+  };
+
   return (
-    <View>
-      <Button title="Upload Excel" onPress={readExcelFile} />
-      <Text>Parsed Data: {JSON.stringify(data, null, 2)}</Text>
+    <View style={styles.container}>
+      <Button title="Upload Excel" onPress={handleFileUpload} />
+      <Text style={styles.heading}>Parsed Data:</Text>
+
+      {data.length > 0 ? (
+        <FlatList
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderItem}
+        />
+      ) : (
+        <Text>No data to display</Text>
+      )}
     </View>
   );
 };
+
+// Styles for the layout
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'flex-start',
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  row: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  cell: {
+    fontSize: 16,
+    marginVertical: 2,
+  },
+});
 
 export default UploadVoterdetails;

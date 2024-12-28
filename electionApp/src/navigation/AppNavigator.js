@@ -15,6 +15,7 @@ import BoothDetails from '../screen/BoothDetails';
 import WardAdminDetails from '../screen/WardAdminDetails';
 import SuperAdminDashboard from '../screen/Dashboard/SuperAdminDashboard';
 import PrivacyPolicyScreen from '../screen/PrivacyPolicyScreen';
+import UploadVoterdetails from '../components/UploadVoterdetails';
 
 const Stack = createStackNavigator();
 
@@ -23,7 +24,12 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
-        <Stack.Screen name="BottomTabs" component={BottomTabNavigator} />
+        {/* <Stack.Screen name="BottomTabs" component={BottomTabNavigator} /> */}
+        <Stack.Screen
+          name="UploadVoterdetails"
+          component={UploadVoterdetails}
+        />
+
         <Stack.Screen
           name="SuperAdminDashboard"
           component={SuperAdminDashboard}

@@ -14,11 +14,12 @@ app.use(cors());
 app.use(express.json());
 
 // Database connection
-require("./config/db");
+// require("./config/db");
 
 // Define Routes
 app.use("/auth", require("./routes/authRoutes"));
 app.use("/admin", require("./routes/adminRoutes"));
+app.use("/voter", require("./routes/uploadVoterDetails"));
 
 const PORT = process.env.PORT || 5000;
 

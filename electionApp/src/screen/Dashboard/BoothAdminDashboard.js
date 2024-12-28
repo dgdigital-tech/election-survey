@@ -19,9 +19,9 @@ import colors from '../../styles/colors';
 const BoothAdminDashboard = () => {
   const [userName, setUserName] = useState('');
   const [profilePic, setProfilePic] = useState(
-    'https://example.com/default-profile-pic.png',
+    'https://i1.sndcdn.com/avatars-b3Op6VqenRjmQE7I-BySypQ-t500x500.jpg',
   );
-  const [isBoothAdmin, setIsBoothAdmin] = useState(true);
+  const [isBoothAdmin, setIsBoothAdmin] = useState('BoothAdmin');
   const [showVoterDetails, setShowVoterDetails] = useState(true);
   const [loading, setLoading] = useState(true);
 
@@ -34,9 +34,10 @@ const BoothAdminDashboard = () => {
 
         setUserName(storedUserName || 'User Name');
         setProfilePic(
-          storedProfilePic || 'https://example.com/default-profile-pic.png',
+          storedProfilePic ||
+            'https://i1.sndcdn.com/avatars-b3Op6VqenRjmQE7I-BySypQ-t500x500.jpg',
         ); // Fallback if no profile pic
-        setIsBoothAdmin(userRole === 'BoothAdmin');
+        // setIsBoothAdmin(userRole === 'BoothAdmin');
       } catch (error) {
         console.error('Error fetching user data:', error);
       } finally {

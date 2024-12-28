@@ -4,7 +4,7 @@ import {
   responsiveHeight as hp,
   responsiveWidth as wp,
 } from 'react-native-responsive-dimensions';
-import Asset9 from '../assets/Icons/Asset 9.svg';
+import WardUsericons from '../assets/Icons/Asset 9.svg';
 import colors from '../styles/colors';
 
 const WardInfo = ({wardNumber, wardName, onPress}) => {
@@ -13,7 +13,7 @@ const WardInfo = ({wardNumber, wardName, onPress}) => {
     <View>
       <View style={styles.card}>
         <TouchableOpacity style={styles.BoothCardIcon} onPress={onPress}>
-          <Asset9 width={24} height={24} />
+          <WardUsericons width={24} height={24} />
         </TouchableOpacity>
         <Text style={styles.WardNumber}>WardNumber</Text>
       </View>

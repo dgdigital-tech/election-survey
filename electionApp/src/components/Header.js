@@ -29,6 +29,8 @@ const Header = ({
     navigation.replace('LoginScreen');
   };
 
+  console.log(isBoothAdmin);
+
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
@@ -65,34 +67,39 @@ const Header = ({
       <View>
         <Text style={styles.wardName}>{wardName}</Text>
       </View>
+      <View style={styles.RightContainer}>
+        {/* Show logout button for Super Admin or Booth Admin */}
+        {isSuperAdmin || isBoothAdmin ? (
+          <>
+            <TouchableOpacity>
+              {isSuperAdmin && (
+                <Notificatioicon
+                  width={24}
+                  height={24}
+                  style={styles.notificatioicon}
+                />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleLogout}
+              style={styles.logoutButton}>
+              <Logout width={24} height={24} />
+            </TouchableOpacity>
+          </>
+        ) : (
+          // Show the hamburger menu icon for non-Super Admin and non-Booth Admin
 
-      {/* Show logout button for Super Admin or Booth Admin */}
-      {isSuperAdmin || isBoothAdmin ? (
-        <>
-          <TouchableOpacity>
+          <>
             {isSuperAdmin && (
-              <Notificatioicon
-                width={24}
-                height={24}
-                style={styles.notificatioicon}
-              />
+              <TouchableOpacity
+                onPress={() => navigation.navigate('WardAdminDashboard')}
+                style={styles.hamburgerButton}>
+                <Homeicon width={24} height={24} />
+              </TouchableOpacity>
             )}
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-            <Logout width={24} height={24} />
-          </TouchableOpacity>
-        </>
-      ) : (
-        // Show the hamburger menu icon for non-Super Admin and non-Booth Admin
-
-        <>
-          <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
-            style={styles.hamburgerButton}>
-            <Homeicon width={24} height={24} />
-          </TouchableOpacity>
-        </>
-      )}
+          </>
+        )}
+      </View>
     </View>
   );
 };
@@ -103,10 +110,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary, // Keep the background color as #223265
     flexDirection: 'row',
     alignItems: 'center',
+    width: '100%',
     justifyContent: 'space-between',
     paddingHorizontal: wp(5),
   },
   leftContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  RightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -132,9 +144,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Roboto-Regular',
     color: colors.white,
+    alignSelf: 'center',
   },
   notificatioicon: {
-    marginLeft: wp(35),
+    marginRight: 5,
   },
   logoutButton: {
     padding: wp(2),
