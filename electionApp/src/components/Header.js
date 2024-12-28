@@ -57,7 +57,7 @@ const Header = ({
         ) : (
           // Show hamburger button when not Super Admin or Booth Admin
           <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
+            // onPress={() => navigation.openDrawer()}
             style={styles.hamburgerButton}>
             <Icon name="menu" size={24} color="#fff" />
           </TouchableOpacity>

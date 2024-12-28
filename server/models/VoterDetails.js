@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const VoterDetails = new mongoose.Schema({
+  epicID: String,
   name: String,
-  email: String,
+  cast: String,
+  connect: String,
+  houseno: String,
   age: Number,
-  phone: String,
+  partyInclination: String,
 });
 
 const Voters = mongoose.model("Voter", VoterDetails);

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -24,6 +24,29 @@ const BoothAdminDashboard = () => {
   const [isBoothAdmin, setIsBoothAdmin] = useState('BoothAdmin');
   const [showVoterDetails, setShowVoterDetails] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [voterDetails, setVoterDetails] = useState([
+    {
+      epicId: '10897xxxxxxxx73485',
+      name: 'Tinku ji',
+      contactNo: '+91 35xxxxxxxx8',
+      houseNo: '22',
+      caste: 'Rajput',
+      age: 45,
+      partyInclination: 'BJP',
+      voted: false,
+    },
+    {
+      epicId: '10897xxxxxxxx73485',
+      name: 'raju ji',
+      contactNo: '+91 35xxxxxxxx8',
+      houseNo: '22',
+      caste: 'verma',
+      age: 45,
+      partyInclination: 'BJP',
+      voted: true,
+    },
+    // Add more voters as needed
+  ]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -31,13 +54,11 @@ const BoothAdminDashboard = () => {
         const storedUserName = await AsyncStorage.getItem('userName');
         const storedProfilePic = await AsyncStorage.getItem('profilePic');
         const userRole = await AsyncStorage.getItem('userRole');
-
         setUserName(storedUserName || 'User Name');
         setProfilePic(
           storedProfilePic ||
             'https://i1.sndcdn.com/avatars-b3Op6VqenRjmQE7I-BySypQ-t500x500.jpg',
-        ); // Fallback if no profile pic
-        // setIsBoothAdmin(userRole === 'BoothAdmin');
+        );
       } catch (error) {
         console.error('Error fetching user data:', error);
       } finally {
@@ -49,6 +70,14 @@ const BoothAdminDashboard = () => {
   }, []);
 
   const toggleSection = () => setShowVoterDetails(!showVoterDetails);
+
+  const updateVoterStatus = (epicId, voted) => {
+    setVoterDetails(prevDetails =>
+      prevDetails.map(voter =>
+        voter.epicId === epicId ? {...voter, voted: !voted} : voter,
+      ),
+    );
+  };
 
   if (loading) {
     return (
@@ -80,9 +109,7 @@ const BoothAdminDashboard = () => {
             Voter Details
           </Text>
         </TouchableOpacity>
-
         <View style={styles.partitionBorder}></View>
-
         <TouchableOpacity
           style={[
             styles.toggleButton,
@@ -102,32 +129,37 @@ const BoothAdminDashboard = () => {
       {showVoterDetails ? (
         <View style={styles.detailsContainer}>
           <Text style={styles.sectionTitle}>Voter Details</Text>
-          <VoterDetailsCard
-            epicId="10897xxxxxxxx73485"
-            name="Tinku ji"
-            contactNo="+91 35xxxxxxxx8"
-            houseNo="22"
-            caste="Rajput"
-            age={45}
-            partyInclination="BJP"
-            voted={false}
-          />
-          {/* Dynamically add more VoterDetailsCard components as required */}
+          {voterDetails.map(voter => (
+            <VoterDetailsCard
+              key={voter.epicId}
+              epicId={voter.epicId}
+              name={voter.name}
+              contactNo={voter.contactNo}
+              houseNo={voter.houseNo}
+              caste={voter.caste}
+              age={voter.age}
+              partyInclination={voter.partyInclination}
+              voted={voter.voted}
+              onVoteStatusChange={updateVoterStatus} // Pass the handler to change vote status
+            />
+          ))}
         </View>
       ) : (
         <View style={styles.statusContainer}>
           <Text style={styles.sectionTitle}>Voting Status</Text>
-          <VotingStatusCard
-            epicId="10897xxxxxxxx73485"
-            name="Tinku ji"
-            contactNo="+91 35xxxxxxxx8"
-            houseNo="22"
-            caste="Rajput"
-            age={45}
-            partyInclination="BJP"
-            voted={true}
-          />
-          {/* Dynamically add more VotingStatusCard components as required */}
+          {voterDetails.map(voter => (
+            <VotingStatusCard
+              key={voter.epicId}
+              epicId={voter.epicId}
+              name={voter.name}
+              contactNo={voter.contactNo}
+              houseNo={voter.houseNo}
+              caste={voter.caste}
+              age={voter.age}
+              partyInclination={voter.partyInclination}
+              voted={voter.voted}
+            />
+          ))}
         </View>
       )}
     </View>
@@ -135,10 +167,7 @@ const BoothAdminDashboard = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  container: {flex: 1, backgroundColor: colors.background},
   loaderContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -168,35 +197,22 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(1),
     alignItems: 'center',
   },
-  activeButton: {
-    backgroundColor: '#223265',
-  },
+  activeButton: {backgroundColor: '#223265'},
   toggleButtonText: {
     fontSize: wp(4),
     fontWeight: '600',
     fontFamily: 'Roboto-Regular',
     color: '#000',
   },
-  activeButtonText: {
-    color: '#fff',
-  },
-  detailsContainer: {
-    paddingHorizontal: wp(5),
-  },
-  statusContainer: {
-    paddingHorizontal: wp(5),
-  },
+  activeButtonText: {color: '#fff'},
+  detailsContainer: {paddingHorizontal: wp(5)},
+  statusContainer: {paddingHorizontal: wp(5)},
   sectionTitle: {
     fontSize: wp(5),
     fontWeight: 'bold',
     fontFamily: 'Roboto-Regular',
     color: colors.primary,
     marginBottom: hp(2),
-  },
-  placeholderText: {
-    fontSize: wp(4),
-    color: colors.grey,
-    textAlign: 'center',
   },
 });
 

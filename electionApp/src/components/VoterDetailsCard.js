@@ -16,10 +16,16 @@ const VoterDetailsCard = ({
   age,
   partyInclination,
   voted,
+  onVoteStatusChange,
 }) => {
-  const [hasVoted, setHasVoted] = useState(voted); // Renamed for clarity
+  const [hasVoted, setHasVoted] = useState(voted);
+
+  console.log(voted);
+
   const handleEditVotingStatus = () => {
-    setHasVoted(!hasVoted); // Toggle vote status
+    const newVotedStatus = !hasVoted;
+    setHasVoted(newVotedStatus);
+    onVoteStatusChange(epicId, newVotedStatus); // Update the parent component
   };
 
   return (
@@ -60,27 +66,20 @@ const VoterDetailsCard = ({
           </View>
         </View>
       </View>
-
       <View style={styles.partitionBorder}></View>
-
       <View style={styles.voteContainer}>
         <Text style={styles.voteLabel}>Voted</Text>
         <Text style={styles.voteStatus}>{!hasVoted ? 'Yes' : 'No'}</Text>
-        {/* Added vote status text */}
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={handleEditVotingStatus}>
             <Icon
               name="check"
               size={20}
-              color={!hasVoted ? 'green' : '#414042'} // Dynamic color for check icon
+              color={!hasVoted ? 'green' : '#414042'}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleEditVotingStatus}>
-            <Icon
-              name="cross"
-              size={20}
-              color={hasVoted ? 'red' : '#414042'} // Dynamic color for cross icon
-            />
+            <Icon name="cross" size={20} color={hasVoted ? 'red' : '#414042'} />
           </TouchableOpacity>
         </View>
       </View>
