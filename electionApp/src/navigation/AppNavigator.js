@@ -24,7 +24,7 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
-        <Stack.Screen name="BottomTabs" component={BottomTabNavigator} />
+        {/* <Stack.Screen name="BottomTabs" component={BottomTabNavigator} /> */}
         <Stack.Screen
           name="UploadVoterdetails"
           component={UploadVoterdetails}

@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Database connection
-// require("./config/db");
+require("./config/db");
 
 // Define Routes
 app.use("/auth", require("./routes/authRoutes"));

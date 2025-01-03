@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const VoterDetails = new mongoose.Schema({
-  epicID: String,
+  epicId: String,
   name: String,
-  cast: String,
-  connect: String,
-  houseno: String,
+  caste: String,
+  contactNo: String,
+  houseNo: String,
   age: Number,
   partyInclination: String,
 });
